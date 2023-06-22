@@ -35,6 +35,10 @@ public class PropertyController {
             return ResponseEntity.status(200).body("The property has been deleted successfully");
         }
     }
+    @GetMapping
+    public ResponseEntity<?> getAllProperties(){
+         return ResponseEntity.status(200).body(propertyService.findAll());
+    }
 
 
 }
