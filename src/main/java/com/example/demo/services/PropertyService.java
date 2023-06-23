@@ -38,5 +38,10 @@ public class PropertyService {
 
         return propertyRepository.findAll();
     }
+
+    public Property findById(Long id) {
+        Optional<Property> property = propertyRepository.findById(id);
+        return property.orElse(null);
+    }
 }
 

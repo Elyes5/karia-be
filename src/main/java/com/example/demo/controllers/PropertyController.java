@@ -40,6 +40,14 @@ public class PropertyController {
     public ResponseEntity<?> getAllProperties(){
         return ResponseEntity.status(200).body(propertyService.findAll());
     }
+    @GetMapping("/propert/{id}")
+    public ResponseEntity<?> getPropertyById(@PathVariable Long id){
+        Property property = propertyService.findById(id);
+        if (property != null)
+            return ResponseEntity.status(200).body(propertyService.findById(id));
+        return ResponseEntity.status(200).body("The property specified does not exist");
+
+    }
     @PutMapping("/property/{id}")
     public ResponseEntity<?> updateProperty(@PathVariable Long id, @RequestBody @Valid Property propertyBody){
      boolean propertyUpdated =   propertyService.updateProperty(id,propertyBody);
