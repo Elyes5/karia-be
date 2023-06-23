@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.demo.models.User;
 @Service
@@ -20,7 +21,7 @@ public class AuthenticationService {
     public AuthenticationResponse register(RegisterRequest registerRequest)
     {
         User user = new User(
-                registerRequest.getPassword(),
+                new BCryptPasswordEncoder().encode(registerRequest.getPassword()),
                 registerRequest.getEmail(),
                 registerRequest.getFirstname(),
                 registerRequest.getLastname(),
@@ -40,7 +41,7 @@ public class AuthenticationService {
                         authenticationRequest.getPassword()
                 )
         );
-        var user = userRepository.findByEmail(authenticationRequest.getEmail()).orElseThrow(() -> new UsernameNotFoundException("user is not found"));
+        var user = userRepository.findByEmail(authenticationRequest.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User is not found"));
         var jwtToken = jwtService.generateToken(user);
         return  AuthenticationResponse.builder().token(jwtToken).build();
     }

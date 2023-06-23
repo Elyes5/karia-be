@@ -17,6 +17,22 @@ public class PropertyService {
         Optional<Property> property = propertyRepository.findById(id);
         property.ifPresent(value -> propertyRepository.deleteById(value.getId()));
     }
+    public boolean updateProperty(Long id,Property propertyBody){
+        Optional<Property> property = propertyRepository.findById(id);
+        if(property.isPresent()){
+            property.get().setContracts(propertyBody.getContracts());
+            property.get().setPrice(propertyBody.getPrice());
+            property.get().setReview(propertyBody.getReview());
+            property.get().setState(propertyBody.getState());
+            property.get().setName(propertyBody.getName());
+            property.get().setTags(propertyBody.getTags());
+            property.get().setVisibility(propertyBody.getVisibility());
+            property.get().setRatings(propertyBody.getRatings());
+            propertyRepository.save(property.get());
+            return true;
+        }
+        return false;
+    }
     public List<Property> findAll()
     {
 
