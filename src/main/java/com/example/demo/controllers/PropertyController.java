@@ -4,6 +4,7 @@ import com.example.demo.models.Property;
 import com.example.demo.models.User;
 import com.example.demo.repositories.PropertyRepository;
 import com.example.demo.services.PropertyService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +24,8 @@ public class PropertyController {
         propertyRepository.save(propertyBody);
         return ResponseEntity.status(200).body("Property created successfully");
     }
-    @DeleteMapping
-    public ResponseEntity<?> deleteProperty( @RequestParam Long id){
+    @DeleteMapping("/property/{id}")
+    public ResponseEntity<?> deleteProperty( @PathVariable Long id){
         Optional<Property> property = propertyRepository.findById(id);
         if (property.isEmpty()){
             return ResponseEntity.status(400).body("The property specified does not exist");
@@ -35,10 +36,20 @@ public class PropertyController {
             return ResponseEntity.status(200).body("The property has been deleted successfully");
         }
     }
-    @GetMapping
+    @GetMapping("/property")
     public ResponseEntity<?> getAllProperties(){
-         return ResponseEntity.status(200).body(propertyService.findAll());
+        return ResponseEntity.status(200).body(propertyService.findAll());
     }
-
+    @PutMapping("/property/{id}")
+    public ResponseEntity<?> updateProperty(@PathVariable Long id, @RequestBody @Valid Property propertyBody){
+     boolean propertyUpdated =   propertyService.updateProperty(id,propertyBody);
+     if(propertyUpdated){
+         return ResponseEntity.status(200).body("The property has been updated successfully");
+     }
+     else
+     {
+         return ResponseEntity.status(400).body("The property specified does not exist");
+     }
+    }
 
 }

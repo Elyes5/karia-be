@@ -48,7 +48,9 @@ public class JwtService {
                 .compact();
     }
     public String generateToken(UserDetails userDetails){
-        return generateToken(new HashMap<>(),userDetails);
+        HashMap<String, Object> userRoles = new HashMap<String, Object>();
+        userRoles.put("role",userDetails.getAuthorities().stream().findFirst().get().toString());
+        return generateToken(userRoles,userDetails);
     }
     private Key getSignInKey(){
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);

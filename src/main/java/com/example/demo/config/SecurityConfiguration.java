@@ -21,9 +21,14 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf(csrf -> csrf.disable())
               .authorizeHttpRequests(authorization -> authorization.
-                      requestMatchers("/api/auth/**").
-                      permitAll()
+                      requestMatchers("/api/auth/**")
+                      .permitAll()
+                      .requestMatchers("/api/property")
+                      .hasAnyAuthority("ADMIN")
+                      .requestMatchers("/api/property/**")
+                      .hasAnyAuthority("ADMIN")
                       .anyRequest()
+                      .authenticated()
               )
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authenticationProvider(authenticationProvider).addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
