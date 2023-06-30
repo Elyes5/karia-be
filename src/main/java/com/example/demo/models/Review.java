@@ -21,5 +21,7 @@ public class Review {
     private String content;
     @ManyToOne
     private Property property;
+    @ManyToOne
+    private User user;
 
 }

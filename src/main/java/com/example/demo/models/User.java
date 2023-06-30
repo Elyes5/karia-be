@@ -1,5 +1,6 @@
 package com.example.demo.models;
 import com.example.demo.enums.ERole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -37,6 +38,7 @@ public class User implements UserDetails {
     @NotNull
     @Enumerated(EnumType.STRING)
     private ERole role;
+    @JsonIgnore
     @NotBlank(message = "Password is mandatory")
     private String password;
     @NotBlank(message = "Email is mandatory")
@@ -52,7 +54,11 @@ public class User implements UserDetails {
     private byte[] avatar;
     @OneToMany(cascade = CascadeType.REMOVE,mappedBy="user")
     private Set<Rating> ratings;
-
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "user")
+    @JsonIgnore
+    private Set<Property> properties;
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "user")
+    private Set<Review> reviews;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

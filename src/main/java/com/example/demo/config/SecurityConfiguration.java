@@ -27,6 +27,8 @@ public class SecurityConfiguration {
                       .hasAnyAuthority("ADMIN")
                       .requestMatchers("/api/property/**")
                       .hasAnyAuthority("ADMIN")
+                      .requestMatchers("/api/user/**")
+                      .hasAnyAuthority("USER")
                       .anyRequest()
                       .authenticated()
               )

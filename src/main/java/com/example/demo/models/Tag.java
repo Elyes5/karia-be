@@ -1,5 +1,6 @@
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ public class Tag {
     private Long id;
     @NotBlank(message = "Tag name is mandatory")
     private String name;
+    @JsonIgnore
     @ManyToMany(mappedBy = "tags")
     private Set<Property> properties;
 }

@@ -1,5 +1,6 @@
 package com.example.demo.repositories;
 
+import com.example.demo.enums.EVisibility;
 import com.example.demo.models.Property;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,8 @@ public interface PropertyRepository extends JpaRepository<Property,Long> {
 
 @NotNull List<Property> findAll();
 List<Property> findAllByName(String name);
+
+    List<Property> findAllByVisibility(EVisibility visibility);
+    List<Property> findAllByVisibilityAndUserId(EVisibility visibility, Long userId);
+    Optional<Property> findAllByIdAndUserId (Long id,Long userId);
 }
